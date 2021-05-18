@@ -142,13 +142,14 @@ font = {'family':'Calibri',
     'weight':'normal',
     'size':22,
 }
-def runexp_scaliability_LP_LAG(input=input_guan.iname=input.__name__):
-    setsettaskset.processor.xaxis=input()
+def runexp_scaliability_LP_LAG(input=Input_guan,iname=input.__name__):
+    setsettaskset,processor,xaxis=input()
+    setsettaskset1,processor1,xaxis1=input()
     solutions=[ILP.ILP_opt_solution,ILP.ILP_nopt_solution,LAG.LAG_opt_solution,LAG.LAG_nopt_solution]
     solnames=["LP_opt","LP_nopt","LAG_opt","LAG_nopt"]
     strtime = time.strftime("%m%dT%H%M",time.localtime(time.time()))
 
-     with open("./result_sched_%s_%s.out" % (input.__name__, strtime), 'w') as f:
+    with open("./result_sched_%s_%s.out" % (input.__name__, strtime), 'w') as f:
         plt.figure(1)
         plt.subplot(111)
         plt.tick_params(labelsize=12)
@@ -164,6 +165,7 @@ def runexp_scaliability_LP_LAG(input=input_guan.iname=input.__name__):
                 for taskset in settaskset:            #taskset: a task set
                     if (ILP.ILP_Analysis(taskset,processor,sol)):
                         acnum += 1
+
                 utot = sum([task.e/task.p for task in settaskset[0]]) 
                 acrate = acnum / len(settaskset)    
                 index = setsettaskset.index(settaskset)
@@ -171,6 +173,19 @@ def runexp_scaliability_LP_LAG(input=input_guan.iname=input.__name__):
                 acrates.append(acrate)
                 print(strresult)
                 f.write(strresult+'\n')
+            acrates1 = []
+            for settaskset1 in setsettaskset1:          #settaskset: a set of task sets
+                acnum1 = 0
+                for taskset1 in settaskset1:            #taskset: a task set
+                    if (LAG.LAG_Analysis(taskset1,processor1,sol)):
+                        acnum1 += 1
+                utot1 = sum([task1.e/task1.p for task1 in settaskset1[0]]) 
+                acrate1 = acnum1 / len(settaskset1)    
+                index1 = setsettaskset1.index(settaskset1)
+                strresult1= "%.2f %.2f %.3f" % (xaxis1[index1], utot1, acrate1)
+                acrates1.append(acrate1)
+                print(strresult1)
+                f.write(strresult1+'\n')
 
             i = solutions.index(sol) % len(colors)
             plt.plot(xaxis, acrates, color=colors[i], linestyle="-", marker=markers[i], linewidth=1.0, label=solnames[i])
