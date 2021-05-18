@@ -44,7 +44,7 @@ def Input_guan():
     a = gen_vars_uniform(numset,20,100,1000,round_to_int=True)
     xaxis = [i/10 for i in range(2,52,2)]
     setsetcpaset = [gen_cpasets_utotf(u,p,a,utot=U) for U in xaxis]
-    # setsettaskset: a set of sets of task sets, each set has the same utot    
+    # setsettaskset:  set of sets of task sets, each set has the same utot    
     setsettaskset = [gen_tasksets_fullnum(cpa) for cpa in setsetcpaset]
     return setsettaskset, processor, xaxis
 
