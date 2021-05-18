@@ -146,8 +146,42 @@ def runexp_scaliability_LP_LAG(input=input_guan.iname=input.__name__):
     setsettaskset.processor.xaxis=input()
     solutions=[ILP.ILP_opt_solution,ILP.ILP_nopt_solution,LAG.LAG_opt_solution,LAG.LAG_nopt_solution]
     solnames=["LP_opt","LP_nopt","LAG_opt","LAG_nopt"]
+    strtime = time.strftime("%m%dT%H%M",time.localtime(time.time()))
 
+     with open("./result_sched_%s_%s.out" % (input.__name__, strtime), 'w') as f:
+        plt.figure(1)
+        plt.subplot(111)
+        plt.tick_params(labelsize=12)
+        colors=['r','b','g','y','k']
+        markers=['s','^','x','*','.']
+        for sol in solutions:
+            solname = f"{sol.__name__}"
+            f.write(solname+'\n')
+            print(solname)
+            acrates = []
+            for settaskset in setsettaskset:          #settaskset: a set of task sets
+                acnum = 0
+                for taskset in settaskset:            #taskset: a task set
+                    if (ILP.ILP_Analysis(taskset,processor,sol)):
+                        acnum += 1
+                utot = sum([task.e/task.p for task in settaskset[0]]) 
+                acrate = acnum / len(settaskset)    
+                index = setsettaskset.index(settaskset)
+                strresult= "%.2f %.2f %.3f" % (xaxis[index], utot, acrate)
+                acrates.append(acrate)
+                print(strresult)
+                f.write(strresult+'\n')
 
+            i = solutions.index(sol) % len(colors)
+            plt.plot(xaxis, acrates, color=colors[i], linestyle="-", marker=markers[i], linewidth=1.0, label=solnames[i])
+            plt.xticks(xaxis,xaxis)
+        plt.legend(loc='upper right',prop=font0)
+        plt.xlabel("Utilization",font)
+        plt.ylabel("Access Rate",font)
+        title = iname
+        plt.title(title,font0)
+        plt.savefig("./fig_"+title+'_'+strtime+'.pdf')
+        plt.show()
     
 
 """
@@ -258,9 +292,14 @@ def main():
     # runexp_schedulability(Input_dong_light)
     # runexp_schedulability(Input_dong_msdium)
     
-    runexp_schedulability_LAG(Input_guan_light,"light tasks g")
-    runexp_schedulability_LAG(Input_guan_,medium,"medium tasks g")
-    runexp_schedulability_LAG(Input_guan_heavy,"heavy tasks g")
+    # runexp_schedulability_LAG(Input_guan_light,"light tasks g")
+    # runexp_schedulability_LAG(Input_guan_medium,"medium tasks g")
+    # runexp_schedulability_LAG(Input_guan_heavy,"heavy tasks g")
+
+    runexp_scaliability_LP_LAG(Input_guan_light,"light tasks lp_lag")
+    runexp_scaliability_LP_LAG(Input_guan_medium,"medium tasks lp_lag")
+    runexp_scaliability_LP_LAG(Input_guan_heavy,"heavy tasks lp_lag")
+
 
     # runexp_schedulability_LAG(Input_dong_light,"light tasks dong")
     # runexp_schedulability_LAG(Input_dong_medium,"medium tasks dong")
