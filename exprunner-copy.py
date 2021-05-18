@@ -145,7 +145,11 @@ font = {'family':'Calibri',
 def runexp_scaliability_LP_LAG(input=input_guan.iname=input.__name__):
     setsettaskset.processor.xaxis=input()
     solutions=[ILP.ILP_opt_solution,ILP.ILP_nopt_solution,LAG.LAG_opt_solution,LAG.LAG_nopt_solution]
+    solnames=["LP_opt","LP_nopt","LAG_opt","LAG_nopt"]
+
+
     
+
 """
 def runexp_schedulability(input=Input_guan,iname=input.__name__):
     # setsettaskset: a set of sets of task sets, each set has the same utot    
