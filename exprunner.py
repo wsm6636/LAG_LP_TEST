@@ -59,7 +59,7 @@ def Input_guan_2():
     # setsettaskset: a set of sets of task sets, each set has the same utot    
     setsettaskset = [gen_tasksets_fullnum(cpa) for cpa in setsetcpaset]
     return setsettaskset, processor, xaxis
-
+"""
 def Input_guan_heavy():
     processor = cpu(4,20)
     numset = 100
@@ -71,6 +71,19 @@ def Input_guan_heavy():
     # setsettaskset: a set of sets of task sets, each set has the same utot    
     setsettaskset = [gen_tasksets_fullnum(cpa) for cpa in setsetcpaset]
     return setsettaskset, processor, xaxis
+    """
+def Input_guan_heavy():
+    processor = cpu(4,20)
+    numset = 1000
+    u = gen_vars_uniform(numset,0.25,0.5,5000)
+    p = gen_vars_uniform(numset,16,32,5000)
+    a = gen_vars_uniform(numset,8,10,5000,round_to_int=True)
+    xaxis = [i/10 for i in range(2,26,2)]
+    setsetcpaset = [gen_cpasets_utotf(u,p,a,utot=U) for U in xaxis]
+    # setsettaskset: a set of sets of task sets, each set has the same utot    
+    setsettaskset = [gen_tasksets_fullnum(cpa) for cpa in setsetcpaset]
+    return setsettaskset, processor, xaxis
+
 def Input_guan_medium():
     processor = cpu(4,20)
     numset = 100
@@ -240,17 +253,17 @@ def plot_scal():
     plt.savefig("./fig_"+title+'.png')
     plt.show()
 def main():
-    # runexp_scaliability()
-    # plot_scal()
-    # runexp_schedulability(Input_guan_light,"light tasks")
-    # runexp_schedulability(Input_guan_medium,"medium tasks")
-    # runexp_schedulability(Input_guan_heavy,"heavy tasks")
+    runexp_scaliability()
+    plot_scal()
+    #runexp_schedulability(Input_guan_light,"light tasks")
+    #runexp_schedulability(Input_guan_medium,"medium tasks")
+    #runexp_schedulability(Input_guan_heavy,"heavy tasks")
     # runexp_schedulability(Input_dong_light)
     # runexp_schedulability(Input_dong_medium)
     
-    runexp_schedulability_LAG(Input_guan_light,"light tasks g")
-    runexp_schedulability_LAG(Input_guan_medium,"light tasks g")
-    runexp_schedulability_LAG(Input_guan_heavy,"heavy tasks g")
+    #runexp_schedulability_LAG(Input_guan_light,"light tasks g")
+    #runexp_schedulability_LAG(Input_guan_medium,"medium tasks g")
+    #runexp_schedulability_LAG(Input_guan_heavy,"heavy tasks g")
 
     # runexp_schedulability_LAG(Input_dong_light,"light tasks dong")
     # runexp_schedulability_LAG(Input_dong_medium,"medium tasks dong")
