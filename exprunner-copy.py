@@ -143,14 +143,14 @@ font = {'family':'Calibri',
     'size':22,
 }
 
-def runexp_schedulability(input=Input_guan):
+def runexp_schedulability(input=Input_guan,iname=input.__name__):
     # setsettaskset: a set of sets of task sets, each set has the same utot    
     setsettaskset, processor, xaxis = input()
     solutions = [ILP.ILP_opt_solution,ILP.ILP_nopt_solution]
     solnames=["lpopt","lpnopt"]
     strtime = time.strftime("%m%dT%H%M",time.localtime(time.time()))
 
-    with open("./result_sched_%s_%s.out" % (input.__name__, strtime), 'w') as f:
+    with open("./result_sched_%s_%s.out" % (iname, strtime), 'w') as f:
         plt.figure(1)
         plt.subplot(111)
         plt.tick_params(labelsize=12)
@@ -185,14 +185,14 @@ def runexp_schedulability(input=Input_guan):
         #plt.savefig("./fig_"+title+'_'+strtime+'.pdf')
         #plt.show()
 
-def runexp_schedulability_LAG(input=Input_guan):
+def runexp_schedulability_LAG(input=Input_guan,iname=input.__name__):
     # setsettaskset: a set of sets of task sets, each set has the same utot    
     setsettaskset, processor, xaxis = input()
     solutions = [LAG.LAG_nopt_solution]
     solnames=["lag"]
     strtime = time.strftime("%m%dT%H%M",time.localtime(time.time()))
 
-    with open("./result_sched_%s_%s.out" % (input.__name__, strtime), 'w') as f:
+    with open("./result_sched_%s_%s.out" % (iname, strtime), 'w') as f:
         plt.figure(1)
         plt.subplot(111)
         plt.tick_params(labelsize=12)
@@ -247,12 +247,12 @@ def runexp_scaliability_LP_LAG(input=Input_guan,iname=input.__name__):
 
     strtime = time.strftime("%m%dT%H%M",time.localtime(time.time()))
 
-    runexp_schedulability(input)
-    runexp_schedulability_LAG(input)  
+    runexp_schedulability(input,iname=input.__name__+"_lp")
+    runexp_schedulability_LAG(input,iname=input.__name__+"_lag")  
     plt.legend(loc='upper right',prop=font0)
     plt.xlabel("Utilization",font)
     plt.ylabel("Access Rate",font)
-    title = iname
+    title = iname+"_lp_lag"
     plt.title(title,font0)
     plt.savefig("./fig_"+title+'_'+strtime+'.pdf')
     plt.show()
@@ -260,26 +260,26 @@ def runexp_scaliability_LP_LAG(input=Input_guan,iname=input.__name__):
 
 
 def main():
-    runexp_scaliability()
-    plot_scal()
+    #runexp_scaliability()
+    #plot_scal()
     #runexp_schedulability(Input_guan_light,"light tasks")
     # runexp_schedulability(Input_guan_medium,"medium tasks")
     # runexp_schedulability(Input_guan_heavy,"heavy tasks")
-    
     # runexp_schedulability(Input_dong_light)
     # runexp_schedulability(Input_dong_msdium)
     
     #runexp_schedulability_LAG(Input_guan_light,"light tasks g")
     # runexp_schedulability_LAG(Input_guan_medium,"medium tasks g")
     # runexp_schedulability_LAG(Input_guan_heavy,"heavy tasks g")
-
-    runexp_scaliability_LP_LAG(Input_guan_light,"light tasks lp_lag")
-    runexp_scaliability_LP_LAG(Input_guan_medium,"medium tasks lp_lag")
-    runexp_scaliability_LP_LAG(Input_guan_heavy,"heavy tasks lp_lag")
+ #   runexp_scaliability_LP_LAG(Input_guan,"Input_guan tasks lp_lag")
+    runexp_scaliability_LP_LAG(Input_guan_light,"light tasks")
+    runexp_scaliability_LP_LAG(Input_guan_medium,"medium tasks")
+    runexp_scaliability_LP_LAG(Input_guan_heavy,"heavy tasks")
 
 
     # runexp_schedulability_LAG(Input_dong_light,"light tasks dong")
     # runexp_schedulability_LAG(Input_dong_medium,"medium tasks dong")
 
 if __name__ == "__main__":
+>>>>>>> dcbf6e654f5de072df4194777a4fa253e27cc47d
     main()
