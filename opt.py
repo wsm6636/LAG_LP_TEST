@@ -10,4 +10,4 @@ def opt(tasks,cpu,tk):
     for Ak in range(A - tk.a + 1, A+1):
         if dp[Ak]:
             return Ak
-    return 0 # Ak not exists
+    return 0 # Ak not exists 1

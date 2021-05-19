@@ -64,3 +64,4 @@ def LAG_Analysis(tasks, cpu, solution):
         if not solution(tasks,cpu,t):
             return False
     return True
+    #1

@@ -1,6 +1,6 @@
 import math
 import random
-
+ #1
 class cpu():
     
     def __init__(self, M, A) -> None:

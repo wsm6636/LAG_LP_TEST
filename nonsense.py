@@ -15,7 +15,7 @@ def decorator(f):
 @decorator
 def f(x):
     return x
-
+ #1
 def main():
     # mp = cpu(3,10)
     # t1=task(2,8,8,4)
